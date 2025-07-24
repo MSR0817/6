@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>生态保护智能监测成效可视化</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        #chart-container {
+            width: 1000px;
+            height: 650px;
+            margin: 20px auto;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            font-size: 14px;
+            color: #666;
+        }
+        .dashboard {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        .panel {
+            width: 48%;
+            height: 280px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px 0 rgba(0,0,0,0.1);
+            padding: 15px;
+            box-sizing: border-box;
+        }
+        .panel-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+        .card-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .card {
+            width: 22%;
+            background: #f9f9f9;
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+        .card-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 8px 0;
+        }
+        .card-label {
+            font-size: 12px;
+            color: #666;
+        }
+        .improvement {
+            font-size: 12px;
+            color: #61a0a8;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+<div id="chart-container">
+    <div class="header">
+        <h1>生态保护智能监测系统成效</h1>
+        <div class="subtitle">基于无人机与AI识别技术的应用成果 | 数据周期：2021-2024</div>
+    </div>
+
+    <!-- 核心指标卡片 -->
+    <div class="card-container">
+        <div class="card">
+            <div class="card-value" style="color:#EE6666;">81.97%</div>
+            <div class="card-label">火险识别准确率</div>
+            <div class="improvement">较传统方式提升300%</div>
+        </div>
+        <div class="card">
+            <div class="card-value" style="color:#91CC75;">92%</div>
+            <div class="card-label">违规活动发现率</div>
+            <div class="improvement">从40%提升至92%</div>
+        </div>
+        <div class="card">
+            <div class="card-value" style="color:#5470C6;">170公顷</div>
+            <div class="card-label">年均减少生态破坏</div>
+            <div class="improvement">相当于238个足球场</div>
+        </div>
+        <div class="card">
+            <div class="card-value" style="color:#FAC858;">60%</div>
+            <div class="card-label">执法成本节约</div>
+            <div class="improvement">年均节省320万元</div>
+        </div>
+    </div>
+
+    <!-- 对比图表区 -->
+    <div class="dashboard">
+        <!-- 准确率提升图 -->
+        <div class="panel">
+            <div class="panel-title">火险识别准确率变化</div>
+            <div id="accuracy-chart" style="width:100%;height:220px;"></div>
+        </div>
+
+        <!-- 违规发现率对比 -->
+        <div class="panel">
+            <div class="panel-title">违规活动发现率对比</div>
+            <div id="discovery-chart" style="width:100%;height:220px;"></div>
+        </div>
+
+        <!-- 生态保护成效 -->
+        <div class="panel">
+            <div class="panel-title">生态破坏面积减少趋势</div>
+            <div id="protection-chart" style="width:100%;height:220px;"></div>
+        </div>
+
+        <!-- 成本节约分析 -->
+        <div class="panel">
+            <div class="panel-title">执法成本节约构成</div>
+            <div id="cost-chart" style="width:100%;height:220px;"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 火险识别准确率图表
+        var accuracyChart = echarts.init(document.getElementById('accuracy-chart'));
+        var accuracyOption = {
+            tooltip: {
+                trigger: 'axis',
+                formatter: '{b}<br/>{a}: {c}%'
+            },
+            xAxis: {
+                type: 'category',
+                data: ['传统方式', '智能监测'],
+                axisLabel: {
+                    interval: 0
+                }
+            },
+            yAxis: {
+                type: 'value',
+                max: 100,
+                axisLabel: {
+                    formatter: '{value}%'
+                }
+            },
+            series: [{
+                name: '准确率',
+                type: 'bar',
+                barWidth: 40,
+                data: [27.3, 81.97],
+                itemStyle: {
+                    color: function(params) {
+                        return params.dataIndex === 0 ? '#dd6b66' : '#EE6666';
+                    },
+                    borderRadius: [4, 4, 0, 0]
+                },
+                label: {
+                    show: true,
+                    position: 'top',
+                    formatter: '{c}%'
+                }
+            }]
+        };
+
+        // 违规发现率对比图
+        var discoveryChart = echarts.init(document.getElementById('discovery-chart'));
+        var discoveryOption = {
+            tooltip: {
+                trigger: 'axis',
+                formatter: '{b}<br/>{a}: {c}%'
+            },
+            xAxis: {
+                type: 'category',
+                data: ['传统方式', '智能监测'],
+                axisLabel: {
+                    interval: 0
+                }
+            },
+            yAxis: {
+                type: 'value',
+                max: 100,
+                axisLabel: {
+                    formatter: '{value}%'
+                }
+            },
+            series: [{
+                name: '发现率',
+                type: 'bar',
+                barWidth: 40,
+                data: [40, 92],
+                itemStyle: {
+                    color: function(params) {
+                        return params.dataIndex === 0 ? '#749f83' : '#91CC75';
+                    },
+                    borderRadius: [4, 4, 0, 0]
+                },
+                label: {
+                    show: true,
+                    position: 'top',
+                    formatter: '{c}%'
+                }
+            }]
+        };
+
+        // 生态保护成效图
+        var protectionChart = echarts.init(document.getElementById('protection-chart'));
+        var protectionOption = {
+            tooltip: {
+                trigger: 'axis',
+                formatter: '{b}<br/>减少面积: {c}公顷'
+            },
+            xAxis: {
+                type: 'category',
+                data: ['2021', '2022', '2023', '2024'],
+                axisLabel: {
+                    interval: 0
+                }
+            },
+            yAxis: {
+                type: 'value',
+                name: '公顷'
+            },
+            series: [{
+                name: '减少破坏面积',
+                type: 'line',
+                symbol: 'circle',
+                symbolSize: 8,
+                data: [120, 145, 160, 170],
+                itemStyle: {
+                    color: '#5470C6'
+                },
+                areaStyle: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                        { offset: 0, color: 'rgba(84, 112, 198, 0.3)' },
+                        { offset: 1, color: 'rgba(84, 112, 198, 0.1)' }
+                    ])
+                },
+                label: {
+                    show: true,
+                    formatter: '{c}公顷'
+                }
+            }]
+        };
+
+        // 成本节约分析图
+        var costChart = echarts.init(document.getElementById('cost-chart'));
+        var costOption = {
+            tooltip: {
+                trigger: 'item',
+                formatter: '{b}: {c}%'
+            },
+            series: [{
+                name: '成本节约',
+                type: 'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                    show: true,
+                    formatter: '{b}: {d}%'
+                },
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: '14',
+                        fontWeight: 'bold'
+                    }
+                },
+                data: [
+                    { value: 35, name: '人力成本' },
+                    { value: 25, name: '设备损耗' },
+                    { value: 20, name: '时间成本' },
+                    { value: 15, name: '误判损失' },
+                    { value: 5, name: '其他' }
+                ],
+                itemStyle: {
+                    color: function(params) {
+                        var colorList = ['#FAC858', '#EE6666', '#91CC75', '#5470C6', '#73C0DE'];
+                        return colorList[params.dataIndex];
+                    }
+                }
+            }]
+        };
+
+        // 渲染所有图表
+        accuracyChart.setOption(accuracyOption);
+        discoveryChart.setOption(discoveryOption);
+        protectionChart.setOption(protectionOption);
+        costChart.setOption(costOption);
+
+        // 响应式调整
+        window.addEventListener('resize', function() {
+            accuracyChart.resize();
+            discoveryChart.resize();
+            protectionChart.resize();
+            costChart.resize();
+        });
+    });
+</script>
+</body>
+</html>
